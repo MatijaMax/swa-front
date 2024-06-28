@@ -1,2 +1,2 @@
-# swa-front
+# Scala scheduler
 SWA Front-end
