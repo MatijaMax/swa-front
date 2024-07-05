@@ -7,11 +7,11 @@ import { LoggedUser } from 'src/app/model/logged-user';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-message',
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.css']
+  selector: 'app-event-list',
+  templateUrl: './event-list.component.html',
+  styleUrls: ['./event-list.component.css']
 })
-export class MessageComponent implements OnInit {
+export class EventListComponent implements OnInit {
   hide = true
   items: Message[] = [];
   errorDescription: string = ''
@@ -63,7 +63,7 @@ export class MessageComponent implements OnInit {
     });
   }
 
-  sendMessage(){
+  SendMessage(){
     this.errorDescription = ''
     const messageData: Message = this.registerForm.value as Message;
     console.log(messageData)

@@ -28,6 +28,9 @@ import { SharedModule } from "./shared/maps/shared.module";
 import { QRCodeModule } from 'angularx-qrcode';
 import { DatePipe } from '@angular/common';
 import { MessageComponent } from './components/message/message.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { EventCreationComponent } from './components/event-creation/event-creation.component';
+import { EventListComponent } from './components/event-list/event-list.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { MessageComponent } from './components/message/message.component';
     RegisterComponent,
     LoginComponent,
     MessageComponent,
+    CalendarComponent,
+    EventListComponent,
+    EventCreationComponent
 
   ],
   imports: [

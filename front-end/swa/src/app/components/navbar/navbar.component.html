@@ -9,15 +9,15 @@
     <img src="assets/notif.png" alt="Simulator Icon" style="width: 34px; height: 30px;" class="icon-lowered">
   </a>
 
-  <a *ngIf="user" mat-button [routerLink]="['/message']" class="mat-button">
+  <a *ngIf="user" mat-button [routerLink]="['/calendar']" class="mat-button">
     <img src="assets/calendar.png" alt="Simulator Icon" style="width: 34px; height: 30px;" class="icon-lowered">
   </a>
 
-  <a *ngIf="user" mat-button [routerLink]="['/message']" class="mat-button"
+  <a *ngIf="user" mat-button [routerLink]="['/event-creation']" class="mat-button"
   >Create Event</a
 >
 
-<a *ngIf="user" mat-button [routerLink]="['/message']" class="mat-button"
+<a *ngIf="user" mat-button [routerLink]="['/event-list']" class="mat-button"
 >My Events</a
 >
 

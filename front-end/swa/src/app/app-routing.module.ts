@@ -4,6 +4,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService } from './ActivateGuard/AuthGuardService';
 import { MessageComponent } from './components/message/message.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { EventListComponent } from './components/event-list/event-list.component';
+import { EventCreationComponent } from './components/event-creation/event-creation.component';
 
 
 const routes: Routes = [
@@ -20,6 +23,24 @@ const routes: Routes = [
   {
     path: 'message',
     component: MessageComponent,
+    canActivate: [AuthGuardService],
+  },
+
+  {
+    path: 'calendar',
+    component: CalendarComponent,
+    canActivate: [AuthGuardService],
+  },
+
+  {
+    path: 'event-list',
+    component: EventListComponent,
+    canActivate: [AuthGuardService],
+  },
+
+  {
+    path: 'event-creation',
+    component: EventCreationComponent,
     canActivate: [AuthGuardService],
   },
 
