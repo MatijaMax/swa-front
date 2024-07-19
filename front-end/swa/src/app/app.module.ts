@@ -31,6 +31,8 @@ import { MessageComponent } from './components/message/message.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { EventCreationComponent } from './components/event-creation/event-creation.component';
 import { EventListComponent } from './components/event-list/event-list.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { EventListComponent } from './components/event-list/event-list.component
     NgxMaterialTimepickerModule,
     SharedModule,
     QRCodeModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
   ],
   providers: [

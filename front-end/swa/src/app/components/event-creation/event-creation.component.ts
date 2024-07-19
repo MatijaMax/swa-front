@@ -5,6 +5,8 @@ import { MessageService } from 'src/app/services/message.service';
 import { Message } from 'src/app/model/message';
 import { LoggedUser } from 'src/app/model/logged-user';
 import { Subscription } from 'rxjs';
+import { CreateEvent } from 'src/app/model/create-event';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-event-creation',
@@ -19,57 +21,38 @@ export class EventCreationComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   registerForm = new FormGroup({
     id: new FormControl(0),
-    content: new FormControl('', [Validators.required]),
-    receiver: new FormControl('', [Validators.required]),
-    read: new FormControl(false)
+    name: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
+    creator: new FormControl(''),
+    startDateTime: new FormControl('', [Validators.required]),  
+    duration: new FormControl('', [Validators.required]),
   });
 
-  constructor(private authService: AuthService, private messageService: MessageService){
+  minDate: Date = new Date();
+
+  constructor(private authService: AuthService, private eventService: EventService){
     
     this.currentUser = this.authService.getCurrentUser()
     console.log(this.currentUser);
   }
 
   ngOnInit(): void {
-    this.loadItems();
   }
 
-  loadItems() {
-    if(this.currentUser.username != null){
-    const subscription = this.messageService.getAllMessagesExclusive(this.currentUser.username).subscribe(
-      (data) => {
-        this.items = data;
-      },
-      (error) => {
-        console.error('Error loading messages:', error);
-      }
-    );
-  }
-}
-
-  readMessage(message: Message){
-    message.read = true;
-    this.items = this.items.filter(item => item.id !== message.id)
-    this.messageService.updateMessage(message.id, message).subscribe({
-      next: () => { 
-        //alert('You just updated yolo')
-      
-       },
-       error: (data) => {
-        if(data.status == 404){
-          //alert('NOT FOUND')
-        }
-       }
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
     });
   }
 
-  SendMessage(){
+  CreateEvent(){
     this.errorDescription = ''
-    const messageData: Message = this.registerForm.value as Message;
+    this.registerForm.value.creator=this.currentUser.username;
+    const messageData: CreateEvent = this.registerForm.value as unknown as CreateEvent;
     console.log(messageData)
-    this.messageService.createMessage(messageData).subscribe({
+    this.eventService.createEvent(messageData).subscribe({
       next: (result: any) => {
-        console.log("MESSAGE SENT")
+        console.log("EVENT CREATED")
         console.log(result)
       },
       error: (err: any) => {
@@ -78,12 +61,6 @@ export class EventCreationComponent implements OnInit {
         }
       }
   })
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
   }
 
 }
