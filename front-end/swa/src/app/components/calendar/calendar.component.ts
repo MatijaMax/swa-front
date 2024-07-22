@@ -12,6 +12,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { LoggedUser } from 'src/app/model/logged-user';
+import { EventService } from 'src/app/services/event.service';
+import { CreateEvent } from 'src/app/model/create-event';
 
 @Component({
   selector: 'app-calendar',
@@ -21,7 +23,7 @@ import { LoggedUser } from 'src/app/model/logged-user';
 })
 export class CalendarComponent implements OnInit {
   
-
+  eventsAll : CreateEvent[] = [];
   idFromUrl: number;
 
   dataSource: any;
@@ -47,10 +49,12 @@ export class CalendarComponent implements OnInit {
     },
   };
   ids: number[] = [];
+  
 
 
   constructor(
     private authService: AuthService,
+    private eventService: EventService,
     public datePipe: DatePipe,
     private route: ActivatedRoute
   ) {
@@ -61,6 +65,10 @@ export class CalendarComponent implements OnInit {
     this.subscription = this.authService.currentUser.subscribe((user) => {
       this.todaysDate = this.todaysDate.split('T')[0];
       this.todaysDate += 'T00:00';
+      setTimeout(() => {
+        this.LoadEvents();
+      }, 1000);
+      
     });
     
 
@@ -81,6 +89,52 @@ export class CalendarComponent implements OnInit {
       this.idFromUrl = parseInt(params['id'], 10);
       console.log(this.idFromUrl);
       console.log('ID FETCHED');
+    });
+  }
+
+  LoadEvents() {
+    this.eventService.getAllEvents().subscribe({
+      next: (result: CreateEvent[]) => {
+        //this.dataSource.data = result;
+        this.eventsAll = result;
+
+        this.eventsList = [];
+
+        //console.log('DWWWWW' + this.ids);
+        const now = new Date();
+        for (const event of this.eventsAll) {
+          const startDateTime = new Date(event.startDateTime);
+          
+          let eventItem;
+          if (startDateTime<now) {
+            eventItem = {
+              title: `${event.name}`,
+              start: startDateTime.toISOString(),
+              duration: event.duration,
+              color: 'red',
+              description: `${event.description}`,             
+            };
+          } else {
+            eventItem = {
+              title: `${event.name}`,
+              start: startDateTime.toISOString(),
+              duration: event.duration,
+              color: 'green',
+              description: `${event.description}`,  
+            };
+          }
+
+          this.eventsList.push(eventItem);
+        }
+
+        console.log('Events List:', this.eventsList);
+        this.calendarOptions.events = this.eventsList;
+      },
+      error: (err) => {
+        console.error('Error fetching appointments:', err);
+      },
+      complete: () => {
+      },
     });
   }
 }

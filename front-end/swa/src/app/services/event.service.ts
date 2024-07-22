@@ -16,8 +16,11 @@ import { CreateEvent } from '../model/create-event';
         return this.http.post<CreateEvent>(
             environment.apiHost + 'v2/events',
             event
-        );
-    
+        );   
+    }
+
+    getAllEvents(): Observable<CreateEvent[]> {
+      return this.http.get<any>(environment.apiHost + 'v2/events');
     }
    
   }
