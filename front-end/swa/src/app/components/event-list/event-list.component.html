@@ -1,1 +1,21 @@
-<label class="whiteo">//TODO EVENT LIST</label>
+<div class="basic-container" fxLayout="row wrap" fxLayoutAlign="center start">
+    <mat-card *ngFor="let event of events" class="purple-card">
+      <div fxLayout="column" fxLayoutGap="8px">
+        <div>
+          <p>Title: {{ event.name }}</p>
+        </div>
+        <div>
+          <p>Duration: {{ event.duration }}</p>
+        </div>
+        <div>
+            <p>Date: {{ event.startDateTime }}</p>
+        </div>
+          <div>
+            <p>Description: {{ event.description }}</p>
+          </div>
+        <div>
+          <button mat-raised-button color="accent" (click)="cancelEvent()" class="mat-button-large" >Cancel</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>

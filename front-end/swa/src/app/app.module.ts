@@ -33,6 +33,8 @@ import { EventCreationComponent } from './components/event-creation/event-creati
 import { EventListComponent } from './components/event-list/event-list.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { JoinEventListComponent } from './components/join-event-list/join-event-list.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MessageComponent,
     CalendarComponent,
     EventListComponent,
-    EventCreationComponent
+    EventCreationComponent,
+    JoinEventListComponent,
 
   ],
   imports: [
@@ -72,6 +75,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     QRCodeModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMenuModule,
 
   ],
   providers: [

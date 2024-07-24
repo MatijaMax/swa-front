@@ -7,6 +7,7 @@ import { MessageComponent } from './components/message/message.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { EventCreationComponent } from './components/event-creation/event-creation.component';
+import { JoinEventListComponent } from './components/join-event-list/join-event-list.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,12 @@ const routes: Routes = [
   {
     path: 'event-list',
     component: EventListComponent,
+    canActivate: [AuthGuardService],
+  },
+
+  {
+    path: 'join-event-list',
+    component: JoinEventListComponent,
     canActivate: [AuthGuardService],
   },
 
