@@ -24,7 +24,6 @@ import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { AuthGuardService } from './ActivateGuard/AuthGuardService';
-import { SharedModule } from "./shared/maps/shared.module";
 import { QRCodeModule } from 'angularx-qrcode';
 import { DatePipe } from '@angular/common';
 import { MessageComponent } from './components/message/message.component';
@@ -71,7 +70,6 @@ import { JoinEventListComponent } from './components/join-event-list/join-event-
     MatSortModule,
     FullCalendarModule,
     NgxMaterialTimepickerModule,
-    SharedModule,
     QRCodeModule,
     MatDatepickerModule,
     MatNativeDateModule,
