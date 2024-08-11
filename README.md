@@ -1,2 +1,2 @@
-# Scala scheduler
-SWA Front-end
+# SWA GUI
+Angular front-end for my Scala scheduler 🙂
