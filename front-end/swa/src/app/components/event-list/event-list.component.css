@@ -135,6 +135,9 @@
   transition:  transform, 0.3s;
   background-color: white!important;
   color: #2d9803;
+  margin-left:5px;
+  margin-right: 5px;
+  margin-top:2px;
 }
 
 .mat-button-large:hover{

@@ -16,7 +16,10 @@ import { UserEventService } from 'src/app/services/userEvent.service';
   styleUrls: ['./join-event-list.component.css']
 })
 export class JoinEventListComponent implements OnInit {
-  events: CreateEvent[] = [];
+  backupEvents: CreateEvent[] = [];
+  viewEvents: CreateEvent[] = [];
+  startDate: Date | null = null;
+  endDate: Date | null = null; 
   currentUser: LoggedUser;
   errorDescription: string = ''
   private subscriptions: Subscription[] = [];
@@ -33,9 +36,8 @@ export class JoinEventListComponent implements OnInit {
   loadEvents() {
     const subscription = this.eventService.getAllEvents().subscribe(
       (data) => {
-        //console.log(this.currentUser.username)
-        //console.log(data[0].creator)
-        this.events = data.filter((item) => item.creator != this.currentUser.username);
+        this.backupEvents = data.filter((item) => item.creator != this.currentUser.username);
+        this.viewEvents = this.backupEvents;
       },
       (error) => {
         console.error('Error loading events:', error);
@@ -49,8 +51,19 @@ export class JoinEventListComponent implements OnInit {
     this.createLink(event.id, this.currentUser.username || "");
   }
 
-  filterByDate(lowerBound: string, upperBound: string){
-    //For the core purpose of the research paper, the functionality will only be developed on the server
+  filterEvents() {
+    this.viewEvents = this.backupEvents.filter(event => {
+      const eventDate = new Date(event.startDateTime);
+      const isAfterStartDate = this.startDate ? eventDate >= this.startDate : true;
+      const isBeforeEndDate = this.endDate ? eventDate <= this.endDate : true;
+      return isAfterStartDate && isBeforeEndDate;
+    });
+  }
+
+  resetFilters() {
+    this.startDate = null;
+    this.endDate = null;
+    this.viewEvents = this.backupEvents;
   }
 
   sendMessage(creator: string, eventName: string){

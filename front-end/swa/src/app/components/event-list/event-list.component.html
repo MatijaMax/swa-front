@@ -1,5 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="center">
+  <button mat-raised-button color="accent" class="mat-button-large" (click)="toggleIsCreated()">Created Events</button>
+  <button mat-raised-button color="accent" class="mat-button-large" (click)="toggleIsJoined()">Joined Events</button>
+</div>
+
 <div class="basic-container" fxLayout="row wrap" fxLayoutAlign="center start">
-    <mat-card *ngFor="let event of events" class="purple-card">
+    <mat-card *ngFor="let event of viewEvents" class="purple-card">
       <div fxLayout="column" fxLayoutGap="8px">
         <div>
           <p>Title: {{ event.name }}</p>
@@ -8,14 +13,15 @@
           <p>Duration: {{ event.duration }}</p>
         </div>
         <div>
-            <p>Date: {{ event.startDateTime }}</p>
-        </div>
+          <p>Date: {{ event.startDateTime | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+      </div>
           <div>
             <p>Description: {{ event.description }}</p>
           </div>
         <div>
-          <button mat-raised-button color="accent" (click)="cancelEvent()" class="mat-button-large" >Cancel</button>
+          <button mat-raised-button color="accent" *ngIf="isCreated" (click)="cancelEvent(event.id)" class="mat-button-large" >Cancel</button>
         </div>
       </div>
     </mat-card>
   </div>
+

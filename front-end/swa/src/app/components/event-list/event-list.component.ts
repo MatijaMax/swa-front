@@ -7,6 +7,8 @@ import { LoggedUser } from 'src/app/model/logged-user';
 import { Subscription } from 'rxjs';
 import { CreateEvent } from 'src/app/model/create-event';
 import { EventService } from 'src/app/services/event.service';
+import { UserEvent } from 'src/app/model/user-event';
+import { UserEventService } from 'src/app/services/userEvent.service';
 
 @Component({
   selector: 'app-event-list',
@@ -14,14 +16,17 @@ import { EventService } from 'src/app/services/event.service';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
-  events: CreateEvent[] = [];
+  backupEvents: CreateEvent[] = [];
+  viewEvents: CreateEvent[] = [];
+  userEvents: UserEvent[] = [];
   currentUser: LoggedUser;
   private subscriptions: Subscription[] = [];
   role? = 0;
-
-  constructor( private authService : AuthService, private eventService : EventService) {
+  isCreated:boolean = true;
+  constructor( private authService : AuthService, private eventService : EventService, private userEventService : UserEventService) {
     this.currentUser = this.authService.getCurrentUser()
     this.loadEvents();
+    this.loadUserEvents();
   }
 
   ngOnInit(): void {
@@ -30,8 +35,8 @@ export class EventListComponent implements OnInit {
   loadEvents() {
     const subscription = this.eventService.getAllEvents().subscribe(
       (data) => {
-        this.events = data;
-        this.events = data.filter((item) => item.creator === this.currentUser.username);
+        this.backupEvents = data;
+        this.viewEvents = this.backupEvents.filter((item) => item.creator === this.currentUser.username);
       },
       (error) => {
         console.error('Error loading events:', error);
@@ -40,12 +45,52 @@ export class EventListComponent implements OnInit {
   
   }
 
-  cancelEvent(){
-    //For the core purpose of the research paper, the functionality will only be developed on the server
+  loadUserEvents() {
+    const subscription = this.userEventService.getAllUserEvents().subscribe(
+      (data) => {
+        this.userEvents = data;
+        this.userEvents = data.filter((item) => item.username === this.currentUser.username);
+      },
+      (error) => {
+        console.error('Error loading user events:', error);
+      }
+    ); 
   }
 
-  filterByDate(lowerBound: string, upperBound: string){
-    //For the core purpose of the research paper, the functionality will only be developed on the server
+
+  toggleIsCreated(){
+    this.isCreated = true;
+    this.viewEvents = this.backupEvents.filter((item) => item.creator === this.currentUser.username);
+
+  }
+
+  toggleIsJoined(){
+    this.isCreated = false;
+    console.log(this.userEvents);
+    this.viewEvents = this.backupEvents.filter(event => this.userEvents.some(userEvent => userEvent.idEvent === event.id));
+  }
+
+
+  zioReload(id: number){
+    this.backupEvents = this.backupEvents.filter(event => event.id !== id);
+    this.viewEvents = this.viewEvents.filter(event => event.id !== id);
+    this.viewEvents = this.viewEvents = this.viewEvents.filter((item) => item.creator === this.currentUser.username);
+  }
+
+  cancelEvent(id: number) {
+    console.log(id);
+    this.eventService.cancelEvent(id).subscribe(
+      (response) => {
+        console.log('Event canceled successfully:', response);
+        this.zioReload(id);
+        this.loadEvents;
+      },
+      (error) => {
+        console.error('Error canceling event:', error);
+        this.zioReload(id);
+        this.loadEvents;
+      }
+    );
   }
 
   ngOnDestroy() {

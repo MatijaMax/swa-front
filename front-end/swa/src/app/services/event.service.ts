@@ -22,5 +22,11 @@ import { CreateEvent } from '../model/create-event';
     getAllEvents(): Observable<CreateEvent[]> {
       return this.http.get<any>(environment.apiHost + 'v2/events');
     }
+
+    cancelEvent(id: number): Observable<any[]> {
+      return this.http.delete<any[]>(
+        environment.apiHost + 'v3/ZIO/events/' + id
+      );
+    }
    
   }

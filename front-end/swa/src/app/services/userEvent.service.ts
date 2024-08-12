@@ -19,5 +19,9 @@ import { UserEvent } from '../model/user-event';
             event
         );   
     }
+
+    getAllUserEvents(): Observable<UserEvent[]> {
+      return this.http.get<any>(environment.apiHost + 'v2/event/user');
+    }
    
   }

@@ -1,8 +1,8 @@
 .register-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align form to the upper border */
-  margin-top: 5vh; /* Move the form more to the upper border */
+  align-items: flex-start;
+  margin-top: 5vh; 
   min-height:110vh;
   
 }
